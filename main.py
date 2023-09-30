@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QApplication, QLabel, QWidget, \
-    QGridLayout, QLineEdit, QPushButton, QMainWindow
+    QGridLayout, QLineEdit, QPushButton, QMainWindow, QTableWidget
 from PyQt6.QtGui import QAction
 import sys
 
@@ -20,6 +20,15 @@ class MainWindow(QMainWindow):
         # Add sub-item (action) to the help menu item
         about_action = QAction("About", self)
         help_menu_item.addAction(about_action)
+
+        # Add a table widget
+        self.table = QTableWidget()
+        self.table.setColumnCount(4)
+        self.table.setHorizontalHeaderLabels(("id", "Name", "Course", "Mobile"))
+        self.setCentralWidget(self.table) # Specify table as central widget.
+
+    def load_date(self):
+        self.table
 
 
 
