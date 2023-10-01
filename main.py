@@ -62,6 +62,12 @@ class MainWindow(QMainWindow):
         delete_button = QPushButton("Edit Record")
         delete_button.clicked.connect(self.delete)
 
+        # Remove repetitive buttons on the status bar.
+        children = self.findChildren(QPushButton)
+        if children:
+            for child in children:
+                self.statusbar.removeWidget(child)
+
         self.statusbar.addWidget(edit_button)
         self.statusbar.addWidget(delete_button)
 
