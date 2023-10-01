@@ -1,7 +1,8 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication, QLabel, QWidget, \
     QGridLayout, QLineEdit, QPushButton, QMainWindow, QTableWidget, \
-    QTableWidgetItem, QDialog, QVBoxLayout, QComboBox, QToolBar
+    QTableWidgetItem, QDialog, QVBoxLayout, QComboBox, QToolBar, \
+    QStatusBar
 from PyQt6.QtGui import QAction, QIcon
 import sys
 import sqlite3
@@ -47,6 +48,22 @@ class MainWindow(QMainWindow):
         toolbar.addAction(add_student_action)
         toolbar.addAction(search_action)
 
+        # Create Status bar and add status bar elements
+        self.statusbar = QStatusBar()
+        self.setStatusBar(self.statusbar)
+
+        # Detect a cell click
+        self.table.cellClicked.connect(self.cell_clicked)
+
+    def cell_clicked(self):
+        edit_button = QPushButton("Edit Record")
+        edit_button.clicked.connect(self.delete)
+
+        delete_button = QPushButton("Edit Record")
+        delete_button.clicked.connect(self.delete)
+
+        self.statusbar.addWidget(edit_button)
+        self.statusbar.addWidget(delete_button)
 
 
     def load_date(self):
@@ -70,6 +87,23 @@ class MainWindow(QMainWindow):
     def search(self):
         dialog = SearchDialog()
         dialog.exec()
+
+    def edit(self):
+        dialog = EditDialog()
+        dialog.exec()
+
+    def delete(self):
+        dialog = DeleteDialog()
+        dialog.exec()
+
+
+class EditDialog(QDialog):
+    pass
+
+
+class DeleteDialog(QDialog):
+    pass
+
 
 class InsertDialog(QDialog):
     def __init__(self):
