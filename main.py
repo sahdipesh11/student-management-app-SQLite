@@ -27,6 +27,7 @@ class MainWindow(QMainWindow):
         # Add sub-item (action) to the help menu.
         about_action = QAction("About", self)
         help_menu_item.addAction(about_action)
+        about_action.triggered.connect(self.about)
 
         # Add action to the edit menu.
         search_action = QAction(QIcon("icons/search.png"), "Search", self)
@@ -101,6 +102,21 @@ class MainWindow(QMainWindow):
     def delete(self):
         dialog = DeleteDialog()
         dialog.exec()
+
+    def about(self):
+        dialog = AboutDialog()
+        dialog.exec()
+
+
+class AboutDialog(QMessageBox):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("About")
+        content = """
+        This app was created during the course "The Python Mega Course.
+        Feel free to modify and reuse this app.
+        """
+        self.setText(content)
 
 
 class EditDialog(QDialog):
@@ -276,7 +292,7 @@ class SearchDialog(QDialog):
         connection = sqlite3.connect("database.db")
         cursor = connection.cursor()
         result = cursor.execute("SELECT * FROM students WHERE name = ?",
-                                (name, ))
+                                (name,))
         rows = list(result)
         # Iterate over items from table and search for required string.
         items = main_window.table.findItems(name, Qt.MatchFlag.MatchFixedString)
